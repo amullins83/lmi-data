@@ -1,0 +1,13 @@
+{
+	"title": "Dimension LCD - Backlight LED - Current Readings",
+	"description": " ... tbd ...",
+	"dataPoints": [
+		{
+			"Setup":"In assembly, wall wort supply",
+			"Power Supply Voltage": 19.2,
+			"Power Supply Current": 0.0,
+			"LED voltage": 19.0,
+			"LED current": 0.0
+		}
+	]
+}
