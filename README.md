@@ -1,4 +1,5 @@
-=== LMI Data
+LMI Data
+========
 
 ## An attempt to keep sane lab records
 
