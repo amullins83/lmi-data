@@ -1,0 +1,11 @@
+.container
+	.row(ng-repeat="field in dataFields")
+		.col-lg-2 {{ field }}
+		input.col-lg-3(ng-model="editDataItem[field]")
+.container
+	.row.headers
+		.col-lg-1 Item #
+		.col-lg-1(ng-repeat="field in dataFields") {{ field }}
+	.row(ng-repeat="dataItem in data", edit-on-click)
+		.col-lg-1 {{ dataItem.number }}
+		.col-lg-1(ng-repeat="field in dataFields", auto-color) {{ dataItem[field] }}
