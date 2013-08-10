@@ -1,26 +1,5 @@
 extends layout
 
 block content
-    .container
-        h1= title
-        p.lead Welcome to #{title}
-        form(ng-controller="dataCtrl").container
-            .row
-                .col-lg-2 Setup
-                input(ng-model="Setup").col-lg-5
-            .row
-                .col-lg-2 Power Supply Voltage
-                input(ng-model="PSVoltage").col-lg-5
-            .row
-                .col-lg-2 Power Supply Current
-                input(ng-model="PSCurrent").col-lg-5
-            .row
-                .col-lg-2 LED Voltage
-                input(ng-model="LEDVoltage").col-lg-5
-            .row
-                .col-lg-2 LED Current
-                input(ng-model="LEDCurrent").col-lg-5
-        .data.row
-
-
+    div(ng-view)
     script(src=scriptURL, type="text/javascript").
