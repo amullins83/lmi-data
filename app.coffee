@@ -4,7 +4,7 @@
 express = require 'express'
 routes = require './routes'
 user = require './routes/user'
-data = require './routes/data'
+api = require './routes/api'
 http = require 'http'
 path = require 'path'
 
@@ -26,8 +26,9 @@ if 'development' == app.get 'env'
   app.use express.errorHandler()
 
 app.get '/', routes.index
-app.get '/users', user.list
-app.get '/data', data.list
+app.get '/partials/:page', routes.partials
+app.get '/api/users/:id', api.users
+app.get '/api/data/:id', api.data
 
 http.createServer(app).listen app.get('port'), ->
   console.log 'Express server listening on port ' + app.get('port')
