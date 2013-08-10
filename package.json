@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "coffee app.coffee"
+    "start": "supervisor -x coffee -i public,coffee,dist,scripts,views,scss,components,data app.coffee"
   },
   "repository": "https://github.com/amullins83/lmi-data.git",
   "dependencies": {
