@@ -1,7 +1,8 @@
 # GET home page.
  
 exports.index = (req, res)->
-    res.render 'index', title: 'LMI Data', styleURL:"https://s3.amazonaws.com/lmi-mullins/assets/application.css"
+    assetURLPrefix = "https://s3.amazonaws.com/lmi-mullins/assets/application"
+    res.render 'index', title: 'LMI Data', styleURL:assetURLPrefix + ".css", scriptURL:assetURLPrefix + ".js"
 
 exports.partials = (req, res)->
     if req.params.page?

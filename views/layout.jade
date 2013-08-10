@@ -1,7 +1,10 @@
-doctype 5
-html
-  head
+!!!
+html(ng-app="lmiData", xlmns:fb="http://ogp.me/ns/fb#")
+    head
+        meta(charset='utf8')
+        meta(name='viewport', content='width=device-width')
+        base(href='/')
     title= title
     link(rel='stylesheet', href=styleURL)
-  body(ng-app="lmiData")
+  body
     block content
