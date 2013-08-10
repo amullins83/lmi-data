@@ -41,15 +41,16 @@ module.exports = function(grunt) {
             },
             js: {
                 src: [
+
+                        './public/js/jquery.min.js',
                         './public/js/angular.min.js',
                         './public/js/angular-ui/*.js',
-                        './public/js/jquery.min.js',
-                        './public/js/bootstrap.min.js',
+                        './public/js/bootstrap.min.js',,
+                        './public/js/app.js',
                         './public/js/controllers.js',
                         './public/js/directives.js',
                         './public/js/filters.js',
-                        './public/js/mongolab.js',
-                        './public/js/app.js'
+                        './public/js/mongolab.js'
                 ],
                 dest: './dist/js/application.js'
             },
