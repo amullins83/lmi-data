@@ -1,5 +1,11 @@
 extends layout
 
 block content
-    div(ng-view)
+    form.navbar.navbar-fixed-top.navbar-form(ng-controller="DialogCtrl")
+        a.brand(href='#') LMI Data
+        ul.nav
+          li
+            a(href='data') Data
+    div(ng-controller='AppCtrl')
+        div(ng-view)
     script(src=scriptURL, type="text/javascript").

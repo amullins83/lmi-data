@@ -6,6 +6,6 @@ exports.index = (req, res)->
 
 exports.partials = (req, res)->
     if req.params.page?
-        res.render 'views/partials/#{req.params.page}'
+        res.render "partials/#{req.params.page}"
     else
         res.end()

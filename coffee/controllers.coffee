@@ -13,3 +13,7 @@ class DataCtrl
                             @$scope.dataFields.push field
 
     @inject: ["$scope", "Data"]
+
+
+class AppCtrl
+    constructor: (@$scope)->
