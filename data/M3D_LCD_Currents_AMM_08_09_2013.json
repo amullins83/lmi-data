@@ -3,6 +3,7 @@
 	"description": " ... tbd ...",
 	"dataPoints": [
 		{
+			"number":0,
 			"Setup":"In assembly, wall wort supply",
 			"Power Supply Voltage": 19.2,
 			"Power Supply Current": 0.0,
