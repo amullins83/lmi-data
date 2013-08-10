@@ -32,7 +32,7 @@ directives.directive("autoColor", function() {
 directives.directive("editOnClick", function() {
   return function(scope, elem, attrs) {
     return elem.click(function() {
-      elem.siblings.removeClass("editing");
+      elem.siblings().removeClass("editing");
       elem.addClass("editing");
       return scope.editDataItem = scope.data[parseInt(elem.find(".col-lg-1:first-child").text(), 10)];
     });

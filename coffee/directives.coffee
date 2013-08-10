@@ -18,6 +18,6 @@ directives.directive "autoColor", ->
 directives.directive "editOnClick", ->
     (scope, elem, attrs)->
         elem.click ->
-            elem.siblings.removeClass "editing"
+            elem.siblings().removeClass "editing"
             elem.addClass "editing"
             scope.editDataItem = scope.data[parseInt elem.find(".col-lg-1:first-child").text(), 10]
