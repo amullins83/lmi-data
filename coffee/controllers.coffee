@@ -9,7 +9,7 @@ class DataCtrl
                     @$scope.editDataItem = @$scope.data[0]
                 for dataPoint in @$scope.data
                     for field of dataPoint
-                        unless field in @$scope.dataFields
+                        unless field in @$scope.dataFields or field.match /^\$/
                             @$scope.dataFields.push field
 
     @inject: ["$scope", "Data"]

@@ -23,7 +23,7 @@ DataCtrl = (function() {
             var _results1;
             _results1 = [];
             for (field in dataPoint) {
-              if (__indexOf.call(this.$scope.dataFields, field) < 0) {
+              if (!(__indexOf.call(this.$scope.dataFields, field) >= 0 || field.match(/^\$/))) {
                 _results1.push(this.$scope.dataFields.push(field));
               } else {
                 _results1.push(void 0);
