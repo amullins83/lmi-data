@@ -4,6 +4,7 @@
         input.col-lg-3(ng-model="editDataItem[field]")
     .row
         button.btn.btn-primary(ng-click="insertData") Insert Data
+        button.btn.btn-default(ng-click="refresh") Refresh
 .container
     .row.headers
         .col-lg-1(ng-repeat="field in dataFields") {{ field }}

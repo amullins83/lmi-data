@@ -1,13 +1,30 @@
 extends layout
 
 block content
-    form.navbar.navbar-form
+    .navbar(ng-controller="SignInCtrl")
         a.navbar-brand(href='#') LMI Data
         ul.nav.navbar-nav
           li
             a(href='data') Data
+        button.btn.btn-primary.navbar-btn(type="button", data-toggle="modal", href="#signInForm") Sign In
     div(ng-controller='AppCtrl')
         div(ng-view)
 
-    
+    .modal.fade#signInForm
+        .modal-dialog
+            form.modal-content
+                .modal-header
+                    button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
+                    h4.modal-title Modal title
+                .modal-body
+                    p.row
+                        .col-lg-3 Email: 
+                        input(name="email", type="email", ng-model="email").col-lg-6
+                    p.row
+                        .col-lg-3 Password:
+                        input(name="password", type="password", ng-model="password").col-lg-6
+                .modal-footer
+                    button.btn.btn-default(type="button", data-dismiss="modal") Close
+                    input.btn.btn-primary(type="submit", data-dismiss="modal", ng-submit="signIn") Sign In
+
     script(src=scriptURL, type="text/javascript").

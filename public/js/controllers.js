@@ -1,4 +1,5 @@
-var AppCtrl, DataCtrl,
+var AppCtrl, DataCtrl, SignInCtrl,
+  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 DataCtrl = (function() {
@@ -7,10 +8,13 @@ DataCtrl = (function() {
     this.$scope = $scope;
     this.User = User;
     this.Data = Data;
-    this.$scope.editDataItem = {};
-    this.$scope.users = this.User.query();
-    this.$scope.user = null;
-    this.$scope.data = [];
+    this.refresh = __bind(this.refresh, this);
+    this.refresh();
+    this.$scope.insertData = function() {
+      _this.Data.create(_this.$scope.editDataItem);
+      _this.$scope.editDataItem = {};
+      return _this.$scope.data = _this.Data.query();
+    };
     this.$scope.$watch("users.length", function() {
       if (_this.$scope.users.length != null) {
         _this.$scope.user = _this.$scope.users[0];
@@ -45,12 +49,14 @@ DataCtrl = (function() {
         return _results;
       }
     });
-    this.$scope.insertData = function() {
-      _this.Data.create(_this.$scope.editDataItem);
-      _this.$scope.editDataItem = {};
-      return _this.$scope.data = _this.Data.query();
-    };
   }
+
+  DataCtrl.prototype.refresh = function() {
+    this.$scope.editDataItem = {};
+    this.$scope.users = this.User.query();
+    this.$scope.user = null;
+    return this.$scope.data = [];
+  };
 
   DataCtrl.inject = ["$scope", "User", "Data"];
 
@@ -67,5 +73,31 @@ AppCtrl = (function() {
   AppCtrl.inject = ["$scope", "User"];
 
   return AppCtrl;
+
+})();
+
+SignInCtrl = (function() {
+  function SignInCtrl($scope, $http, User) {
+    var _this = this;
+    this.$scope = $scope;
+    this.$http = $http;
+    this.User = User;
+    this.$scope.users = User.query();
+    this.$scope.user = null;
+    this.$scope.$watch("users.length", function() {
+      if (_this.$scope.users.length != null) {
+        return _this.$scope.user = _this.$scope.users[0];
+      }
+    });
+    this.$scope.signIn = function() {
+      return _this.$http.post("./login", postData).success(function(data) {
+        return _this.$scope.users = User.query();
+      });
+    };
+  }
+
+  SignInCtrl.inject = ["$scope", "$http", "User"];
+
+  return SignInCtrl;
 
 })();
