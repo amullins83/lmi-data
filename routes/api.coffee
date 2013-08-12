@@ -100,7 +100,7 @@ class Resource
         app.delete "/api/#{@name}/:id", @destroy
 
 
-exports.datapoints = resource "Datapoint", (req)->
+exports.datapoints = new Resource "Datapoint", (req)->
     findObject = {}
     findObject.experiment = req.experiment if req.experiment?
     return findObject
@@ -108,7 +108,7 @@ exports.datapoints = resource "Datapoint", (req)->
     return "datetime"
 
 
-exports.experiments = resource "Experiment", (req)->
+exports.experiments = new Resource "Experiment", (req)->
     findObject = {}
     findObject.products = $all: [req.product] if req.product?
     return findObject
@@ -116,13 +116,13 @@ exports.experiments = resource "Experiment", (req)->
     return "datetime"
 
 
-exports.products = resource "Product", (req)->
+exports.products = new Resource "Product", (req)->
     return {}
 , ->
     return "datetime"
 
 
-exports.specs = resource "Spec", (req)->
+exports.specs = new Resource "Spec", (req)->
     findObject = {}
     findObject.product = req.product if req.product?
     return findObject
@@ -130,7 +130,11 @@ exports.specs = resource "Spec", (req)->
     return "datetime"
 
 
-exports.users = resource "User", (req)->
+exports.users = new Resource "User", (req)->
     return {}
 , ->
     return "userName"
+
+exports.resources = resources = []
+for element of exports
+    resources.push element if element.constructor is Resource

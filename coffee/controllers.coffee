@@ -1,19 +1,33 @@
 class DataCtrl
-    constructor: (@$scope, @Data)->
+    constructor: (@$scope, @User, @Data)->
         @$scope.editDataItem = {}
-        @$scope.data = @Data.query()
+        @$scope.users = @User.query()
+        @$scope.user = null
+        @$scope.data = []
+
+        @$scope.$watch "users.length", =>
+            if @$scope.users.length?
+                @$scope.user = @$scope.users[0]
+                @$scope.data = @Data.query()
+        
         @$scope.$watch "data.length", =>
             @$scope.dataFields = []
             if @$scope.data.length > 0
-                unless @$scope.editDataItem.number?
-                    @$scope.editDataItem = @$scope.data[0]
                 for dataPoint in @$scope.data
-                    for field of dataPoint
-                        unless field in @$scope.dataFields or field.match /^\$/
-                            @$scope.dataFields.push field
+                    if typeof dataPoint is "object"
+                        for field of dataPoint
+                            unless field in @$scope.dataFields or field.match /^\$/
+                                @$scope.dataFields.push field
 
-    @inject: ["$scope", "Data"]
+        @$scope.insertData = =>
+            @Data.create @$scope.editDataItem
+            @$scope.editDataItem = {}
+            @$scope.data = @Data.query()
+
+    @inject: ["$scope", "User", "Data"]
 
 
 class AppCtrl
-    constructor: (@$scope)->
+    constructor: (@$scope, @User)->
+
+    @inject: ["$scope", "User"]

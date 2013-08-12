@@ -10,7 +10,8 @@
     "express": "3.3.4",
     "jade": "*",
     "coffee-script": "*",
-    "knox": "*"
+    "knox": "*",
+    "mongoose":"*"
   },
   "devDependencies": {
     "grunt": "*",
