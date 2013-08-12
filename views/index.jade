@@ -1,7 +1,7 @@
 extends layout
 
 block content
-    .container(ng-controller="SignInCtrl", ng-cloak)
+    .container(ng-controller="IndexCtrl", ng-cloak)
         .navbar.ng-cloak
             a.navbar-brand(href='#') LMI Data
             ul.nav.navbar-nav
@@ -12,9 +12,9 @@ block content
         div(ng-controller='AppCtrl')
             div(ng-view)
     
-        .modal.fade#signInForm
+        .modal.fade#signInForm(ng-controller="SignInCtrl")
             .modal-dialog
-                form.modal-content
+                form.modal-content(ng-submit="signIn()")
                     .modal-header
                         button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
                         h4.modal-title Sign In to LMI-Data
@@ -27,6 +27,6 @@ block content
                             input(name="password", type="password", ng-model="password").col-lg-6
                     .modal-footer
                         button.btn.btn-default(type="button", data-dismiss="modal") Close
-                        input.btn.btn-primary(type="submit", ng-submit="signIn") Sign In
+                        input.btn.btn-primary(type="submit") Sign In
 
     script(src=scriptURL, type="text/javascript").

@@ -3,3 +3,15 @@
 
 .ng-cloak {
   display: none; }
+
+.fieldText {
+  background-color: #ddd; }
+
+.fieldPositiveNumber {
+  background-color: #8f8; }
+
+.fieldNegativeNumber {
+  background-color: #fa8; }
+
+.fieldZero {
+  background-color: #fff; }

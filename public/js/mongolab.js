@@ -4,7 +4,7 @@ mongolab = angular.module('mongolab', ['ngResource']);
 
 mongolab.factory('Data', function($resource) {
   var Data;
-  return Data = $resource('api/data/:id');
+  return Data = $resource('api/datapoints/:id');
 });
 
 mongolab.factory('User', function($resource) {
