@@ -11,7 +11,13 @@
     "jade": "*",
     "coffee-script": "*",
     "knox": "*",
-    "mongoose":"*"
+    "mongoose":"*",
+    "session-mongoose":"*",
+    "passport":"*",
+    "passport-local":"*",
+    "passport-facebook":"*",
+    "dateformat":"*",
+    "bcrypt":"*"
   },
   "devDependencies": {
     "grunt": "*",

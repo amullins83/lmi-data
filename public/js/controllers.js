@@ -1,5 +1,4 @@
 var AppCtrl, DataCtrl, SignInCtrl,
-  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 DataCtrl = (function() {
@@ -8,7 +7,6 @@ DataCtrl = (function() {
     this.$scope = $scope;
     this.User = User;
     this.Data = Data;
-    this.refresh = __bind(this.refresh, this);
     this.refresh();
     this.$scope.insertData = function() {
       _this.Data.create(_this.$scope.editDataItem);
@@ -16,7 +14,7 @@ DataCtrl = (function() {
       return _this.$scope.data = _this.Data.query();
     };
     this.$scope.$watch("users.length", function() {
-      if (_this.$scope.users.length != null) {
+      if ((_this.$scope.users.length != null) && (_this.$scope.users[0] != null) && (_this.$scope.users[0].email != null)) {
         _this.$scope.user = _this.$scope.users[0];
         return _this.$scope.data = _this.Data.query();
       }
@@ -85,14 +83,15 @@ SignInCtrl = (function() {
     this.$scope.users = User.query();
     this.$scope.user = null;
     this.$scope.$watch("users.length", function() {
-      if (_this.$scope.users.length != null) {
+      if ((_this.$scope.users.length != null) && (_this.$scope.users[0] != null) && (_this.$scope.users[0].email != null)) {
         return _this.$scope.user = _this.$scope.users[0];
       }
     });
     this.$scope.signIn = function() {
-      return _this.$http.post("./login", postData).success(function(data) {
+      _this.$http.post("./login", postData).success(function(data) {
         return _this.$scope.users = User.query();
       });
+      return angular.element("#signInForm").modal("hide");
     };
   }
 

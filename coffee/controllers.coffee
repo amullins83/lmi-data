@@ -8,7 +8,7 @@ class DataCtrl
             @$scope.data = @Data.query()
 
         @$scope.$watch "users.length", =>
-            if @$scope.users.length?
+            if @$scope.users.length? and @$scope.users[0]? and @$scope.users[0].email?
                 @$scope.user = @$scope.users[0]
                 @$scope.data = @Data.query()
         
@@ -21,7 +21,7 @@ class DataCtrl
                             unless field in @$scope.dataFields or field.match /^\$/
                                 @$scope.dataFields.push field
 
-    refresh: =>
+    refresh: ->
         @$scope.editDataItem = {}
         @$scope.users = @User.query()
         @$scope.user = null
@@ -43,11 +43,12 @@ class SignInCtrl
         @$scope.user = null
 
         @$scope.$watch "users.length", =>
-            if @$scope.users.length?
+            if @$scope.users.length? and @$scope.users[0]? and @$scope.users[0].email?
                 @$scope.user = @$scope.users[0]    
 
         @$scope.signIn = =>
             @$http.post("./login", postData).success (data)=>
                 @$scope.users = User.query()
+            angular.element("#signInForm").modal("hide")
 
     @inject: ["$scope", "$http", "User"]

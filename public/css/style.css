@@ -1,2 +1,5 @@
 .editing {
   background-color: #88aaff; }
+
+.ng-cloak {
+  display: none; }
