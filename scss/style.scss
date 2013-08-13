@@ -1,4 +1,5 @@
 $editColor: #8af;
+$vertMargin: 15px;
 
 .editing {
     background: {
@@ -32,4 +33,15 @@ $editColor: #8af;
     background: {
         color: #fff;
     }
+}
+
+.lmi-row {
+    margin: {
+        top: $vertMargin;
+        bottom: $vertMargin;
+    }
+}
+
+.textRight {
+    text-align: right;
 }

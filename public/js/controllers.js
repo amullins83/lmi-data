@@ -1,4 +1,4 @@
-var AppCtrl, DataCtrl, IndexCtrl, SignInCtrl,
+var AppCtrl, DataCtrl, IndexCtrl,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 DataCtrl = (function() {
@@ -9,8 +9,15 @@ DataCtrl = (function() {
     this.Datapoint = Datapoint;
     this.refresh();
     this.$scope.insertData = function() {
-      _this.Datapoint.create(_this.$scope.editDataItem);
-      _this.$scope.editDataItem = {};
+      var field, postItem, _i, _len, _ref;
+      postItem = {};
+      _ref = _this.$scope.dataFields;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        field = _ref[_i];
+        postItem[field] = _this.$scope[field];
+      }
+      _this.Datapoint.save(postItem);
+      _this.$scope.editDataItem = null;
       return _this.$scope.data = _this.Datapoint.query();
     };
     this.$scope.$watch("users.length", function() {
@@ -32,7 +39,7 @@ DataCtrl = (function() {
               var _results1;
               _results1 = [];
               for (field in dataPoint) {
-                if (!(__indexOf.call(this.$scope.dataFields, field) >= 0 || field.match(/(^\$|_id|experiment)/))) {
+                if (!(__indexOf.call(this.$scope.dataFields, field) >= 0 || field.match(/(^\$|_id|experiment|__v)/))) {
                   _results1.push(this.$scope.dataFields.push(field));
                 } else {
                   _results1.push(void 0);
@@ -47,17 +54,6 @@ DataCtrl = (function() {
         return _results;
       }
     });
-    this.$scope.dataById = function(id) {
-      var item, _i, _len, _ref;
-      _ref = _this.$scope.data;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        item = _ref[_i];
-        if (item._id === id) {
-          return item;
-        }
-      }
-      return {};
-    };
     this.$scope.getClass = function(id, field) {
       var elem;
       elem = angular.element("[data-id=" + id + "] [data-field=" + field + "]");
@@ -71,10 +67,21 @@ DataCtrl = (function() {
         return "fieldZero";
       }
     };
+    this.$scope.getField = function(fieldIndex) {
+      return _this.$scope.dataFields[fieldIndex];
+    };
+    this.$scope.populateForm = function() {
+      var field, _results;
+      _results = [];
+      for (field in _this.$scope.data[_this.$scope.editDataItem]) {
+        _results.push(_this.$scope[field] = _this.$scope.data[_this.$scope.editDataItem][_this.$scope.dataFields[index]]);
+      }
+      return _results;
+    };
   }
 
   DataCtrl.prototype.refresh = function() {
-    this.$scope.editDataItem = {};
+    this.$scope.editDataItem = null;
     this.$scope.users = this.User.query();
     this.$scope.user = null;
     return this.$scope.data = [];
@@ -98,8 +105,8 @@ AppCtrl = (function() {
 
 })();
 
-SignInCtrl = (function() {
-  function SignInCtrl($scope, $http, User) {
+IndexCtrl = (function() {
+  function IndexCtrl($scope, $http, User) {
     var _this = this;
     this.$scope = $scope;
     this.$http = $http;
@@ -124,37 +131,7 @@ SignInCtrl = (function() {
     };
   }
 
-  SignInCtrl.inject = ["$scope", "$http", "User"];
-
-  return SignInCtrl;
-
-})();
-
-IndexCtrl = (function() {
-  function IndexCtrl($scope, User, $timeout) {
-    var _this = this;
-    this.$scope = $scope;
-    this.User = User;
-    this.$timeout = $timeout;
-    this.$scope.users = User.query();
-    this.$scope.user = null;
-    this.$scope.$watch("users.length", function() {
-      if ((_this.$scope.users.length != null) && (_this.$scope.users[0] != null) && (_this.$scope.users[0].email != null)) {
-        return _this.$scope.user = _this.$scope.users[0];
-      }
-    });
-    this.$scope.userUpdateInterval = 2000;
-    this.$scope.userUpdate = function() {
-      _this.$timeout.cancel(_this.$scope.to);
-      return _this.$scope.to = _this.$timeout(function() {
-        _this.$scope.users = User.query();
-        return _this.$scope.userUpdate();
-      }, _this.$scope.userUpdateInterval);
-    };
-    this.$scope.userUpdate();
-  }
-
-  IndexCtrl.inject = ["$scope", "User", "$timeout"];
+  IndexCtrl.inject = ["$scope", "$http", "User", "$timeout"];
 
   return IndexCtrl;
 

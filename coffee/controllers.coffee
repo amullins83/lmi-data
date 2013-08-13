@@ -3,8 +3,11 @@ class DataCtrl
         @refresh()
 
         @$scope.insertData = =>
-            @Datapoint.create @$scope.editDataItem
-            @$scope.editDataItem = {}
+            postItem = {}
+            for field in @$scope.dataFields
+                postItem[field] = @$scope[field]
+            @Datapoint.save postItem
+            @$scope.editDataItem = null
             @$scope.data = @Datapoint.query()
 
         @$scope.$watch "users.length", =>
@@ -18,13 +21,8 @@ class DataCtrl
                 for dataPoint in @$scope.data
                     if typeof dataPoint is "object"
                         for field of dataPoint
-                            unless field in @$scope.dataFields or field.match /(^\$|_id|experiment)/ 
+                            unless field in @$scope.dataFields or field.match /(^\$|_id|experiment|__v)/ 
                                 @$scope.dataFields.push field
-
-        @$scope.dataById = (id)=>
-            for item in @$scope.data
-                return item if item._id is id
-            return {}
 
         @$scope.getClass = (id, field)=>
             elem = angular.element "[data-id=#{id}] [data-field=#{field}]"
@@ -38,8 +36,15 @@ class DataCtrl
             else
                 return "fieldZero"
 
+        @$scope.getField = (fieldIndex)=>
+            return @$scope.dataFields[fieldIndex]
+
+        @$scope.populateForm = =>
+            for field of @$scope.data[@$scope.editDataItem]
+                @$scope[field] = @$scope.data[@$scope.editDataItem][@$scope.dataFields[index]]
+
     refresh: ->
-        @$scope.editDataItem = {}
+        @$scope.editDataItem = null
         @$scope.users = @User.query()
         @$scope.user = null
         @$scope.data = []
@@ -54,7 +59,7 @@ class AppCtrl
     @inject: ["$scope", "User"]
 
 
-class SignInCtrl
+class IndexCtrl
     constructor: (@$scope, @$http, @User)->
         @$scope.users = User.query()
         @$scope.user = null
@@ -72,26 +77,4 @@ class SignInCtrl
                 @$scope.users = User.query()
             angular.element("#signInForm").modal("hide")
 
-    @inject: ["$scope", "$http", "User"]
-
-class IndexCtrl
-    constructor: (@$scope, @User, @$timeout)->
-        @$scope.users = User.query()
-        @$scope.user = null
-
-        @$scope.$watch "users.length", =>
-            if @$scope.users.length? and @$scope.users[0]? and @$scope.users[0].email?
-                @$scope.user = @$scope.users[0]    
-
-        @$scope.userUpdateInterval = 2000
-
-        @$scope.userUpdate = =>
-            @$timeout.cancel @$scope.to
-            @$scope.to = @$timeout =>
-                @$scope.users = User.query()
-                @$scope.userUpdate()
-            , @$scope.userUpdateInterval
-
-        @$scope.userUpdate()
-
-    @inject: ["$scope", "User", "$timeout"]
+    @inject: ["$scope", "$http", "User", "$timeout"]

@@ -1,14 +1,12 @@
 .container
-    .row(ng-repeat="field in dataFields", ng-hide="!user")
-        .col-lg-2 {{ field }}
-        input.col-lg-3(ng-model="editDataItem[field]")
-    .row
+    .row.lmi-row(ng-repeat="field in dataFields", ng-hide="!user", input-row)
+    .row.lmi-row
         .col-lg-1
-            button.btn.btn-primary(ng-click="insertData") Insert Data
+            button.btn.btn-primary(ng-click="insertData()") Insert Data
         .col-lg-1
-            button.btn.btn-default(ng-click="refresh") Refresh
+            button.btn.btn-default(ng-click="refresh()") Refresh
 .container(ng-hide="!user || !data.length")
-    .row.headers
+    .row.headers.lmi-row
         .col-lg-2(ng-repeat="field in dataFields") {{ field }}
-    .row(ng-repeat="dataItem in data", edit-on-click)
-        .col-lg-2(ng-repeat="field in dataFields") {{ dataItem[field] }}
+    .row.lmi-row(ng-repeat="dataItem in data", edit-on-click)
+        .col-lg-2(ng-repeat="field in dataFields", ng-class="getClass()") {{ dataItem[field] }}
