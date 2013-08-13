@@ -6,11 +6,12 @@ directives.directive "autoColor", ->
         posColor = attrs["posColor"] or "#8f8"
         negColor = attrs["negColor"] or "#f84"
         neutralColor = attrs["neutralColor"] or "#fff"
-        if isNaN elem.text()
+        parse = parseInt elem.text(), 10
+        if isNaN parse
             elem.css background: textColor
-        else if parseInt(elem.text(), 10) > 0
+        else if parse > 0
             elem.css background: posColor
-        else if parseInt(elem.text(), 10) < 0
+        else if parse < 0
             elem.css background: negColor
         else
             elem.css background: neutralColor

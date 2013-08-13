@@ -1,6 +1,7 @@
 # data in json format
 models = require "../models"
 
+
 renderJSON = (res)->
     (err, objects)->
         if(err)
@@ -26,7 +27,7 @@ class Resource
         res.json
             message: "Error: No user logged in."
 
-    get: (req, res)->
+    get: (req, res)=>
         filter = @filterFunction(req)
         sort = @sortFunction()
         if req.user?
@@ -44,13 +45,13 @@ class Resource
         else
             @noUserError(res)
 
-    create: (req, res)->
+    create: (req, res)=>
         if req.user?
             Model.create req.body, renderJSON(res)
         else
             @noUserError(res)
 
-    edit:  (req, res)->
+    edit:  (req, res)=>
         unless req.user?
             return @noUserError(res)
         filter = @filterFunction(req)
@@ -67,7 +68,7 @@ class Resource
             findObject[key] = req.body.findObject[key]
         Model.findOneAndUpdate findObject, req.body.updateObject, renderJSON(res)
             
-    destroy: (req, res)->
+    destroy: (req, res)=>
         unless req.user?
             return @noUserError(res)
         filter = filterFunction(req)
@@ -83,7 +84,7 @@ class Resource
             findObject[key] = req.body[key]
         Model.remove findObject, renderJSON(res)
 
-    count: (req, res)->
+    count: (req, res)=>
         unless req.user?
             return @noUserError(res)
         filter = filterFunction(req)
@@ -92,7 +93,7 @@ class Resource
             findObject[key] = filter[key]
         Model.count findObject, renderJSON(res)
 
-    resourceForApp: (app)->
+    resourceForApp: (app)=>
         app.get "/api/#{@name}/:id", @get
         app.get "/api/#{@name}", @get
         app.put "/api/#{@name}/:id", @edit
@@ -100,7 +101,9 @@ class Resource
         app.delete "/api/#{@name}/:id", @destroy
 
 
-exports.datapoints = resource "Datapoint", (req)->
+
+
+exports.datapoints = datapoints = new Resource "Datapoint", (req)->
     findObject = {}
     findObject.experiment = req.experiment if req.experiment?
     return findObject
@@ -108,7 +111,7 @@ exports.datapoints = resource "Datapoint", (req)->
     return "datetime"
 
 
-exports.experiments = resource "Experiment", (req)->
+exports.experiments = experiments = new Resource "Experiment", (req)->
     findObject = {}
     findObject.products = $all: [req.product] if req.product?
     return findObject
@@ -116,13 +119,13 @@ exports.experiments = resource "Experiment", (req)->
     return "datetime"
 
 
-exports.products = resource "Product", (req)->
+exports.products = products = new Resource "Product", (req)->
     return {}
 , ->
     return "datetime"
 
 
-exports.specs = resource "Spec", (req)->
+exports.specs = specs = new Resource "Spec", (req)->
     findObject = {}
     findObject.product = req.product if req.product?
     return findObject
@@ -130,7 +133,9 @@ exports.specs = resource "Spec", (req)->
     return "datetime"
 
 
-exports.users = resource "User", (req)->
+exports.users = users = new Resource "User", (req)->
     return {}
 , ->
     return "userName"
+
+exports.resources = resources = [datapoints, experiments, products, specs, users]

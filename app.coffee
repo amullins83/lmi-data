@@ -23,10 +23,10 @@ if 'development' == app.get 'env'
   app.use express.errorHandler()
 
 app.get '/partials/:page', routes.partials
-app.get '/api/users', api.users
-app.get '/api/users/:id', api.users
-app.get '/api/data', api.data
-app.get '/api/data/:id', api.data
+
+for resource in api.resources
+    resource.resourceForApp app
+
 app.get '*', routes.index
 
 

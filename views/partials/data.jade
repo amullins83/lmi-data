@@ -2,6 +2,8 @@
     .row(ng-repeat="field in dataFields")
         .col-lg-2 {{ field }}
         input.col-lg-3(ng-model="editDataItem[field]")
+    .row
+        button.btn.btn-primary(ng-click='newItem') New Item
 .container
     .row.headers
         .col-lg-1(ng-repeat="field in dataFields") {{ field }}

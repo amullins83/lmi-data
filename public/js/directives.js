@@ -4,20 +4,21 @@ directives = angular.module("lmiData.directives", []);
 
 directives.directive("autoColor", function() {
   return function(scope, elem, attrs) {
-    var negColor, neutralColor, posColor, textColor;
+    var negColor, neutralColor, parse, posColor, textColor;
     textColor = attrs["textColor"] || "#ddd";
     posColor = attrs["posColor"] || "#8f8";
     negColor = attrs["negColor"] || "#f84";
     neutralColor = attrs["neutralColor"] || "#fff";
-    if (isNaN(elem.text())) {
+    parse = parseInt(elem.text(), 10);
+    if (isNaN(parse)) {
       return elem.css({
         background: textColor
       });
-    } else if (parseInt(elem.text(), 10) > 0) {
+    } else if (parse > 0) {
       return elem.css({
         background: posColor
       });
-    } else if (parseInt(elem.text(), 10) < 0) {
+    } else if (parse < 0) {
       return elem.css({
         background: negColor
       });
