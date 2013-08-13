@@ -3,3 +3,6 @@ mongolab = angular.module 'mongolab', ['ngResource']
 
 mongolab.factory 'Datapoint', ($resource)->
     Datapoint = $resource 'api/datapoints/:id'
+
+mongolab.factory 'User', ($resource)->
+    User = $resource 'api/users/:id'

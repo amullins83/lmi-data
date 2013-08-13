@@ -36,20 +36,17 @@ class Resource
                 findObject._id = req.params.id
                 for key of filter
                     findObject[key] = filter[key]
-                return Model.findOne(findObject).exec renderJSON(res)
+                return @Model.findOne(findObject).exec renderJSON(res)
             if req.query?
                 findObject = req.query
             for key of filter
                 findObject[key] = filter[key]
-            Model.find(findObject).sort(sort).exec renderJSON(res)
+            @Model.find(findObject).sort(sort).exec renderJSON(res)
         else
             @noUserError(res)
 
     create: (req, res)=>
-        if req.user?
-            Model.create req.body, renderJSON(res)
-        else
-            @noUserError(res)
+        @Model.create req.body, renderJSON(res)
 
     edit:  (req, res)=>
         unless req.user?
@@ -60,13 +57,13 @@ class Resource
             for key of filter
                 findObject[key] = filter[key]
             findObject._id = req.params.id
-            return Model.findOneAndUpdate(findObject, req.body.updateObject).exec renderJSON(res)
+            return @Model.findOneAndUpdate(findObject, req.body.updateObject).exec renderJSON(res)
             
         for key of filter
             findObject[key] = filter[key]
         for key of req.body.findObject
             findObject[key] = req.body.findObject[key]
-        Model.findOneAndUpdate findObject, req.body.updateObject, renderJSON(res)
+        @Model.findOneAndUpdate findObject, req.body.updateObject, renderJSON(res)
             
     destroy: (req, res)=>
         unless req.user?
@@ -77,12 +74,12 @@ class Resource
             findObject[key] = filter[key]
         if req.params.id?
             findObject._id = req.params.id
-            return Model.remove findObject, renderJSON(res)
+            return @Model.remove findObject, renderJSON(res)
         for key of filter
             findObject[key] = filter[key]
         for key of req.body
             findObject[key] = req.body[key]
-        Model.remove findObject, renderJSON(res)
+        @Model.remove findObject, renderJSON(res)
 
     count: (req, res)=>
         unless req.user?
@@ -91,7 +88,7 @@ class Resource
         findObject = {}
         for key of filter
             findObject[key] = filter[key]
-        Model.count findObject, renderJSON(res)
+        @Model.count findObject, renderJSON(res)
 
     resourceForApp: (app)=>
         app.get "/api/#{@name}/:id", @get
@@ -100,7 +97,7 @@ class Resource
         app.post "/api/#{@name}", @create
         app.delete "/api/#{@name}/:id", @destroy
 
-
+exports.Resource = Resource
 
 
 exports.datapoints = datapoints = new Resource "Datapoint", (req)->
@@ -116,7 +113,7 @@ exports.experiments = experiments = new Resource "Experiment", (req)->
     findObject.products = $all: [req.product] if req.product?
     return findObject
 , ->
-    return "datetime"
+    return "datetime"   
 
 
 exports.products = products = new Resource "Product", (req)->
@@ -138,4 +135,6 @@ exports.users = users = new Resource "User", (req)->
 , ->
     return "userName"
 
-exports.resources = resources = [datapoints, experiments, products, specs, users]
+exports.resources = resources = []
+for key, element of exports
+    resources.push element if element.constructor is Resource
